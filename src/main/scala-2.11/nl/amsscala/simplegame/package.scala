@@ -4,22 +4,15 @@ import org.scalajs.dom
 
 package object simplegame {
 
-  case class Position[P: Numeric](x: P, y: P) {
-    import Numeric.Implicits.infixNumericOps
-    import Ordering.Implicits.infixOrderingOps
+  case class Position(x: Int, y: Int) {
+    def +(p: Position) = Position(x + p.x, y + p.y)
 
-    def +(p: Position[P]) = Position(x + p.x, y + p.y)
+    def *(factor: Int) = Position(x * factor, y * factor)
 
-    def *(factor: P) = Position(x * factor, y * factor)
+    def isInTheCanvas(canvas: dom.html.Canvas, size: Int): Boolean =
+      0 <= x && (x + size) <= canvas.width && 0 <= y && (y + size) <= canvas.height
 
-    def isInTheCanvas(canvas: dom.html.Canvas, size: P): Boolean = {
-      0.asInstanceOf[P] <= x &&
-        (x + size) <= canvas.width.asInstanceOf[P] &&
-        0.asInstanceOf[P] <= y &&
-        (y + size) <= canvas.height.asInstanceOf[P]
-    }
-
-    def areTouching(posB: Position[P], size: P): Boolean = {
+    def touch(posB: Position, size: Int): Boolean = {
       x <= (posB.x + size) &&
         posB.x <= (x + size) &&
         y <= (posB.y + size) &&

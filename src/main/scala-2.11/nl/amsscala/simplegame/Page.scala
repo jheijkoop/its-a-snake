@@ -13,7 +13,7 @@ trait Page {
   def render(gs: GameState) = {
     if (bgImage.isReady && heroImage.isReady && monsterImage.isReady) {
       ctx.drawImage(bgImage.element, 0, 0, canvas.width, canvas.height)
-      ctx.drawImage(heroImage.element, gs.hero.pos.x, gs.hero.pos.y)
+      gs.heroes.reverse.foreach(hero => ctx.drawImage(heroImage.element, hero.pos.x, hero.pos.y))
       ctx.drawImage(monsterImage.element, gs.monster.pos.x, gs.monster.pos.y)
 
       // Score
